@@ -1,0 +1,13 @@
+[package]
+name = "spellcast"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+moddef = "0.2.2"
+static_assertions = "1.1.0"
+
+[dev-dependencies]
+clone_box = "0.1.3"
