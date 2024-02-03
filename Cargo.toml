@@ -2,6 +2,10 @@
 name = "spellcast"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Casting of dynamic objects"
+repository = "https://github.com/sigurd4/spellcast"
+keywords = ["cast", "casting", "dyn", "object"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
