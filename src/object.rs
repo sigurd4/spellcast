@@ -1,3 +1,5 @@
+use std::any::Any;
+
 use super::*;
 
 pub unsafe trait Object<Trait>
@@ -19,29 +21,32 @@ where
 
 #[macro_export]
 macro_rules! impl_object {
-    ($trait:path) => {
-        impl spellcast::downcast::DowncastFromRef<dyn $trait> for dyn $trait
+    ($trait:ident $(<$($generics:tt),*>)? $(where $($whre:tt)*)?) => {
+        impl $(<$($generics),*>)? spellcast::downcast::DowncastFromRef<dyn $trait $(<$($generics),*>)?> for dyn $trait $(<$($generics),*>)?
+        $(where $($whre)*)?
         {
-            fn downcast_from_ref(from: &dyn $trait) -> Option<&Self>
+            fn downcast_from_ref<'a>(from: &'a (dyn $trait $(<$($generics),*>)?+ 'static)) -> Option<&'a Self>
             {
                 Some(from)
             }
         
-            fn downcast_from_mut(from: &mut dyn $trait) -> Option<&mut Self>
+            fn downcast_from_mut<'a>(from: &'a mut (dyn $trait $(<$($generics),*>)? + 'static)) -> Option<&'a mut Self>
             {
                 Some(from)
             }
         }
-        impl spellcast::downcast::DowncastFrom<dyn $trait, dyn $trait> for dyn $trait
+        impl $(<$($generics),*>)? spellcast::downcast::DowncastFrom<dyn $trait $(<$($generics),*>)?, dyn $trait $(<$($generics),*>)?> for dyn $trait $(<$($generics),*>)?
+        $(where $($whre)*)?
         {
-            fn downcast_from(from: Box<dyn $trait>) -> Result<Box<Self>, Box<dyn $trait>>
+            fn downcast_from(from: Box<dyn $trait $(<$($generics),*>)?>) -> Result<Box<Self>, Box<dyn $trait $(<$($generics),*>)?>>
             {
                 Ok(from)
             }
         }
-        impl spellcast::convert::TryConvertInto<dyn $trait, dyn $trait> for dyn $trait
+        impl $(<$($generics),*>)? spellcast::convert::TryConvertInto<dyn $trait $(<$($generics),*>)?, dyn $trait $(<$($generics),*>)?> for dyn $trait $(<$($generics),*>)?
+        $(where $($whre)*)?
         {
-            fn try_convert_into(self: Box<Self>) -> Result<Box<dyn $trait>, Box<dyn $trait>>
+            fn try_convert_into(self: Box<Self>) -> Result<Box<dyn $trait $(<$($generics),*>)?>, Box<dyn $trait $(<$($generics),*>)?>>
             {
                 Ok(self)
             }
